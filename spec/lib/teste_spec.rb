@@ -56,4 +56,21 @@ describe 'POST validation' do
             expect(response.code).to eq(400)
         end
     end
+
+    context 'Number field incorrect entries' do 
+        it 'Lyrics' do
+            response= HttParty.post('/dev/lambdastresstest', :body => {:mensagem => "Mensagem de teste", :num_destinatario => "123456789a2"}.to_json)
+            expect(response.code).to eq(400)
+        end
+
+        it 'Special ceracter' do
+            response= HttParty.post('/dev/lambdastresstest', :body => {:mensagem => "Mensagem de teste", :num_destinatario => "123456789%0"}.to_json)
+            expect(response.code).to eq(400)
+        end
+
+        it 'String format' do
+            response= HttParty.post('/dev/lambdastresstest', :body => {:mensagem => "Mensagem de teste", :num_destinatario => "12345678901"}.to_json)
+            expect(response.code).to eq(400)
+        end
+    end
 end
